@@ -1,0 +1,19 @@
+<template>
+  <v-snackbar
+    v-model="$store.state.alert.open"
+    :color="$store.state.alert.type"
+    elevation="7"
+    multi-line
+    dark
+    dense
+    right
+    bottom
+  >
+    <v-alert
+      :type="$store.state.alert.type"
+      dence
+    >
+      {{ $store.state.alert.text }}
+    </v-alert>
+  </v-snackbar>
+</template>
