@@ -146,6 +146,7 @@
 
       async saveWaifu() {
         this.loading = true;
+        this.saveChange = true
         let formData = new FormData();
         formData.append('name', this.name);
         formData.append('nickname', this.nickname);
@@ -159,6 +160,7 @@
 
         const response = await axios.post('/waifus/create', formData);
         this.loading = false;
+        this.saveChange = false;
         if (response.status == 200) {
           this.name = '';
           this.nickname = '';
