@@ -20,16 +20,15 @@
           type="number"
         ></v-text-field>
 
-        <v-autocomplete
+        <v-select
           v-model="type"
           :items="types"
-          :loading="loadingTypes" 
-          :search-input.sync="searchTypes"
+          :loading="loadingTypes"
           label="Type"
           item-text="name"
           item-value="id"
           clearable
-        ></v-autocomplete>
+        ></v-select>
 
         <v-checkbox
           v-model="servant"
@@ -49,9 +48,14 @@
 
         <v-file-input
           accept="image/png, image/jpeg"
-          ref="image"
           label="Image"
           v-model="image"
+        ></v-file-input>
+
+        <v-file-input
+          accept="image/png, image/jpeg"
+          label="Image favorita"
+          v-model="favImg"
         ></v-file-input>
 
         <v-btn
@@ -91,6 +95,7 @@
         loadingFranchises: false,
         timeOutFranchises: null,
         image: null,
+        favImg: null,
         saveChange: false
       }
     },
@@ -98,15 +103,10 @@
     created() {
       this.id = this.$route.params.id;
       this.fetchWaifu();
+      this.fetchTypes();
     },
 
     watch: {
-      searchTypes (val) {
-        this.loadingTypes = true
-
-        // Lazily load input items
-        this.fetchTypes(val);
-      },
       
       searchFranchises (val) {
         this.loadingFranchises = true
@@ -135,16 +135,12 @@
       },
 
       async fetchTypes (val) {
-        clearTimeout(this.timeOutTypes);
         this.loadingTypes = true;
+        const result  = await axios.get(`/waifu_types`);
+        console.log(result.data);
+        if ( result.status == 200 ) this.types = result.data.types;
 
-        this.timeOutTypes = setTimeout(async () => {
-          const result  = await axios.get(`/waifu_types?name=${val}`);
-          console.log(result.data);
-          if ( result.status == 200 ) this.types = result.data.types;
-
-          this.loadingTypes = false;
-        }, 700)
+        this.loadingTypes = false;
       },
 
       async fetchFranchises (val) {
@@ -170,6 +166,7 @@
         formData.append('servant', this.servant);
         formData.append('franchise_id', this.franchise);
         formData.append('image', this.image);
+        formData.append('fav_img', this.favImg)
         console.log(formData);
 
         const response = await axios.put(`/waifus/${this.id}`, formData);
