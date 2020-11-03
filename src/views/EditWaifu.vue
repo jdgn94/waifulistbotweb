@@ -83,7 +83,7 @@
           <v-col cols="6">
             <v-img
               ref="imageDefault"
-              :src="imageDefaultFavNewURL != '' ? imageDefaultFavNewURL : imageDefaultFavUploadURL"
+              :src="imageDefaultFavNewURL.length > 0 ? imageDefaultFavNewURL : imageDefaultFavUploadURL"
               min-height="300"
               min-width="100%"
               max-width="100%"
@@ -96,6 +96,7 @@
                   class="fill-height ma-0"
                   align="center"
                   justify="center"
+                  v-if="imageDefaultFavUploadURL != null"
                 >
                   <v-progress-circular
                     indeterminate
@@ -179,7 +180,7 @@
     methods: {
       async fetchWaifu() {
         const waifu = await axios.get(`/waifus/${this.id}`);
-        console.log(waifu.data);
+        // console.log(waifu.data);
         if (waifu.status != 200 || waifu.data.length == 0) return this.$router.push('/');
 
         const { data } = waifu;
