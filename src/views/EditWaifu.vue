@@ -57,7 +57,20 @@
               max-height="450"
               lazy-src="../assets/no-image.jpg"
               style="border-radius: 15px"
-            ></v-img>
+            >
+              <template v-slot:placeholder>
+                <v-row
+                  class="fill-height ma-0"
+                  align="center"
+                  justify="center"
+                >
+                  <v-progress-circular
+                    indeterminate
+                    color="grey lighten-5"
+                  ></v-progress-circular>
+                </v-row>
+              </template>
+            </v-img>
             
             <v-file-input
               accept="image/png, image/jpeg"
@@ -77,7 +90,20 @@
               max-height="450"
               lazy-src="../assets/no-image.jpg"
               style="border-radius: 15px"
-            ></v-img>
+            >
+              <template v-slot:placeholder>
+                <v-row
+                  class="fill-height ma-0"
+                  align="center"
+                  justify="center"
+                >
+                  <v-progress-circular
+                    indeterminate
+                    color="grey lighten-5"
+                  ></v-progress-circular>
+                </v-row>
+              </template>
+            </v-img>
 
             <v-file-input
               accept="image/png, image/jpeg"
