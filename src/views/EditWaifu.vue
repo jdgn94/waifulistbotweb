@@ -46,17 +46,47 @@
           clearable
         ></v-autocomplete>
 
-        <v-file-input
-          accept="image/png, image/jpeg"
-          label="Image"
-          v-model="image"
-        ></v-file-input>
+        <v-row>
+          <v-col cols="6" class="mx-auto">
+            <v-img
+              ref="imageDefault"
+              :src="imageDefaultNewURL != '' ? imageDefaultNewURL : imageDefaultUploadURL"
+              min-height="300"
+              min-width="100%"
+              max-width="100%"
+              max-height="450"
+              lazy-src="../assets/no-image.jpg"
+              style="border-radius: 15px"
+            ></v-img>
+            
+            <v-file-input
+              accept="image/png, image/jpeg"
+              label="Image"
+              v-model="image"
+              @change="previewImage"
+            ></v-file-input>
+          </v-col>
 
-        <v-file-input
-          accept="image/png, image/jpeg"
-          label="Image favorita"
-          v-model="favImg"
-        ></v-file-input>
+          <v-col cols="6">
+            <v-img
+              ref="imageDefault"
+              :src="imageDefaultFavNewURL != '' ? imageDefaultFavNewURL : imageDefaultFavUploadURL"
+              min-height="300"
+              min-width="100%"
+              max-width="100%"
+              max-height="450"
+              lazy-src="../assets/no-image.jpg"
+              style="border-radius: 15px"
+            ></v-img>
+
+            <v-file-input
+              accept="image/png, image/jpeg"
+              label="Favorite Image"
+              v-model="favImg"
+              @change="previewImage"
+            ></v-file-input>
+          </v-col>
+        </v-row>
 
         <v-btn
           color="primary"
@@ -95,7 +125,11 @@
         loadingFranchises: false,
         timeOutFranchises: null,
         image: null,
+        imageDefaultUploadURL: '',
+        imageDefaultNewURL: '',
         favImg: null,
+        imageDefaultFavUploadURL: '',
+        imageDefaultFavNewURL: '',
         saveChange: false
       }
     },
@@ -129,6 +163,8 @@
         this.type = data.waifu_type_id;
         this.servant = data.servant;
         this.franchise = data.franchise_id;
+        this.imageDefaultUploadURL = data.image_url;
+        this.imageDefaultFavUploadURL = data.fav_image_url;
 
         this.fetchTypes(data.waifu_type_name);
         this.fetchFranchises(data.franchise_name);
@@ -177,6 +213,11 @@
         } else {
           this.$store.dispatch('openAlert', { open: true, type: 'error', text: `Error to save: ${response.response.message}` });
         }
+      },
+
+      previewImage() {
+        this.imageDefaultNewURL = this.image ? URL.createObjectURL(this.image) : '';
+        this.imageDefaultFavNewURL = this.favImg ? URL.createObjectURL(this.favImg) : ''
       }
     }
   }

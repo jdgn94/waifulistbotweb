@@ -49,17 +49,47 @@
           cache-items
         ></v-autocomplete>
 
-        <v-file-input
-          accept="image/png, image/jpeg"
-          label="Image"
-          v-model="image"
-        ></v-file-input>
+        <v-row>
+          <v-col cols="6" class="mx-auto">
+            <v-img
+              ref="imageDefault"
+              :src="imageURL"
+              min-height="300"
+              min-width="100%"
+              max-width="100%"
+              max-height="450"
+              lazy-src="../assets/no-image.jpg"
+              style="border-radius: 15px"
+            ></v-img>
+            
+            <v-file-input
+              accept="image/png, image/jpeg"
+              label="Image"
+              v-model="image"
+              @change="previewImage"
+            ></v-file-input>
+          </v-col>
 
-        <v-file-input
-          accept="image/png, image/jpeg"
-          label="Image favorita"
-          v-model="favImg"
-        ></v-file-input>
+          <v-col cols="6">
+            <v-img
+              ref="imageDefault"
+              :src="imageFavURL"
+              min-height="300"
+              min-width="100%"
+              max-width="100%"
+              max-height="450"
+              lazy-src="../assets/no-image.jpg"
+              style="border-radius: 15px"
+            ></v-img>
+
+            <v-file-input
+              accept="image/png, image/jpeg"
+              label="Favorite Image"
+              v-model="favImg"
+              @change="previewImage"
+            ></v-file-input>
+          </v-col>
+        </v-row>
 
         <v-btn
           color="primary"
@@ -98,7 +128,9 @@
         loadingFranchises: false,
         timeOutFranchises: null,
         image: null,
+        imageURL: '',
         favImg: null,
+        imageFavURL: '',
         saveChange: false
       }
     },
@@ -108,13 +140,6 @@
     },
 
     watch: {
-      // searchTypes (val) {
-      //   this.loadingTypes = true
-
-      //   // Lazily load input items
-      //   this.fetchTypes(val);
-      // },
-      
       searchFranchises (val) {
         this.loadingFranchises = true
 
@@ -173,6 +198,11 @@
         } else {
           this.$store.dispatch('openAlert', { open: true, type: 'error', text: `Error to save: ${response.response.message}` });
         }
+      },
+
+      previewImage() {
+        this.imageURL = this.image ? URL.createObjectURL(this.image) : '';
+        this.imageFavURL = this.favImg ? URL.createObjectURL(this.favImg) : '';
       }
     }
   }
