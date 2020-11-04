@@ -200,7 +200,7 @@
       async fetchTypes (val) {
         this.loadingTypes = true;
         const result  = await axios.get(`/waifu_types`);
-        console.log(result.data);
+        // console.log(result.data);
         if ( result.status == 200 ) this.types = result.data.types;
 
         this.loadingTypes = false;
@@ -212,7 +212,7 @@
 
         this.timeOutFranchises = setTimeout(async () => {
           const result  = await axios.get(`/franchises?name=${val}`);
-          console.log(result.data);
+          // console.log(result.data);
           if ( result.status == 200 ) this.franchises = result.data.franchises;
 
           this.loadingFranchises = false;
