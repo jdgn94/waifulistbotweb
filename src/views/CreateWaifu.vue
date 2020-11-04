@@ -180,7 +180,7 @@
         formData.append('servant', this.servant);
         formData.append('franchise_id', this.franchise);
         formData.append('image', this.image);
-        // formData.append('fav_img', this.favImg);
+        formData.append('fav_img', this.favImg);
         console.log(formData);
 
         const response = await axios.post('/waifus/create', formData);
