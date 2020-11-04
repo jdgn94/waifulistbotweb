@@ -235,6 +235,8 @@
         const response = await axios.put(`/waifus/${this.id}`, formData);
         this.saveChange = false;
         if (response.status == 200) {
+          this.image = null;
+          this.favImg = null;
           this.fetchWaifu();
           this.$store.dispatch('openAlert', { open: true, type: 'success', text: 'Waifus save' });
         } else {
