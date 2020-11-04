@@ -6,7 +6,7 @@
         hint="search for name, nickname, franchise, age and waifu type"
         v-model="name"
         @keyup="searchTime"
-        @keyup.enter="() => {clearTimeout(this.timeOut); searchWaifus()}"
+        @keyup.enter="searchWaifus()"
         @click:clear="resetSearch()"
         filled
         rounded
@@ -70,6 +70,7 @@
     },
 
     created() {
+      clearTimeout(this.timeOut); 
       this.searchWaifus();
     },
 
