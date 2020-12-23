@@ -48,70 +48,19 @@
 
         <v-row>
           <v-col cols="6" class="mx-auto">
-            <v-img
-              ref="imageDefault"
-              :src="imageDefaultNewURL != '' ? imageDefaultNewURL : imageDefaultUploadURL"
-              min-height="300"
-              min-width="100%"
-              max-width="100%"
-              max-height="450"
-              lazy-src="../assets/no-image.jpg"
-              style="border-radius: 15px"
-            >
-              <template v-slot:placeholder>
-                <v-row
-                  class="fill-height ma-0"
-                  align="center"
-                  justify="center"
-                >
-                  <v-progress-circular
-                    indeterminate
-                    color="grey lighten-5"
-                  ></v-progress-circular>
-                </v-row>
-              </template>
-            </v-img>
-            
-            <v-file-input
-              accept="image/png, image/jpeg"
+            <image-preview
               label="Image"
-              v-model="image"
-              @change="previewImage"
-            ></v-file-input>
+              :returnImage="previewImage"
+              :imageDefault="imageDefaultUploadURL"
+            />
           </v-col>
 
           <v-col cols="6">
-            <v-img
-              ref="imageDefault"
-              :src="imageDefaultFavNewURL.length > 0 ? imageDefaultFavNewURL : imageDefaultFavUploadURL"
-              min-height="300"
-              min-width="100%"
-              max-width="100%"
-              max-height="450"
-              lazy-src="../assets/no-image.jpg"
-              style="border-radius: 15px"
-            >
-              <template v-slot:placeholder>
-                <v-row
-                  class="fill-height ma-0"
-                  align="center"
-                  justify="center"
-                  v-if="imageDefaultFavUploadURL != null"
-                >
-                  <v-progress-circular
-                    indeterminate
-                    color="grey lighten-5"
-                  ></v-progress-circular>
-                </v-row>
-              </template>
-            </v-img>
-
-            <v-file-input
-              accept="image/png, image/jpeg"
+            <image-preview
               label="Favorite Image"
-              v-model="favImg"
-              @change="previewImage"
-            ></v-file-input>
+              :returnImage="previewImageFav"
+              :imageDefault="imageDefaultFavUploadURL"
+            />
           </v-col>
         </v-row>
 
@@ -126,14 +75,19 @@
         </v-btn>
       </v-col>
 
+      <!-- <v-col cols="2" v-if="loadingData"></v-col> -->
+
       <v-col cols="2"></v-col>
     </v-row>
   </div>
 </template>
 
 <script>
+  import ImagePreview from '../components/ImagePreview';
   export default {
     name: 'EditWaifu',
+
+    components: { ImagePreview },
 
     data() {
       return {
@@ -157,12 +111,14 @@
         favImg: null,
         imageDefaultFavUploadURL: '',
         imageDefaultFavNewURL: '',
-        saveChange: false
+        saveChange: false,
+        loadingData: true
       }
     },
 
     created() {
       this.id = this.$route.params.id;
+      this.loadingData = true;
       this.fetchWaifu();
       this.fetchTypes();
     },
@@ -195,6 +151,7 @@
 
         this.fetchTypes(data.waifu_type_name);
         this.fetchFranchises(data.franchise_name);
+        this.loadingData = false;
       },
 
       async fetchTypes (val) {
@@ -244,9 +201,12 @@
         }
       },
 
-      previewImage() {
-        this.imageDefaultNewURL = this.image ? URL.createObjectURL(this.image) : '';
-        this.imageDefaultFavNewURL = this.favImg ? URL.createObjectURL(this.favImg) : ''
+      previewImage(image) {
+        this.image
+      },
+      
+      previewImageFav(image) {
+        this.favImg = image;
       }
     }
   }

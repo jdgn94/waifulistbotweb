@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <div class="search-bar" id="search-barr">
+    <div class="search-bar" id="search-bar">
       <v-text-field
         label="Search"
         hint="search for name, nickname, franchise, age and waifu type"

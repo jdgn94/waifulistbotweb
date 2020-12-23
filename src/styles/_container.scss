@@ -8,3 +8,10 @@
 .card-container-item {
   margin: 10px;
 }
+
+.one-line-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}

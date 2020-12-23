@@ -51,43 +51,19 @@
 
         <v-row>
           <v-col cols="6" class="mx-auto">
-            <v-img
-              ref="imageDefault"
-              :src="imageURL"
-              min-height="300"
-              min-width="100%"
-              max-width="100%"
-              max-height="450"
-              lazy-src="../assets/no-image.jpg"
-              style="border-radius: 15px"
-            ></v-img>
-            
-            <v-file-input
-              accept="image/png, image/jpeg"
+            <image-preview
               label="Image"
-              v-model="image"
-              @change="previewImage"
-            ></v-file-input>
+              :returnImage="previewImage"
+              :imageDefault="''"
+            />
           </v-col>
 
           <v-col cols="6">
-            <v-img
-              ref="imageDefault"
-              :src="imageFavURL"
-              min-height="300"
-              min-width="100%"
-              max-width="100%"
-              max-height="450"
-              lazy-src="../assets/no-image.jpg"
-              style="border-radius: 15px"
-            ></v-img>
-
-            <v-file-input
-              accept="image/png, image/jpeg"
-              label="Favorite Image"
-              v-model="favImg"
-              @change="previewImage"
-            ></v-file-input>
+            <image-preview
+              label="Image Favorite"
+              :returnImage="previewImageFav"
+              :imageDefault="''"
+            />
           </v-col>
         </v-row>
 
@@ -108,8 +84,13 @@
 </template>
 
 <script>
+  import ImagePreview from '../components/ImagePreview';
   export default {
     name: 'CreateWaifu',
+
+    components: {
+      ImagePreview,
+    },
 
     data() {
       return {
@@ -200,9 +181,12 @@
         }
       },
 
-      previewImage() {
-        this.imageURL = this.image ? URL.createObjectURL(this.image) : '';
-        this.imageFavURL = this.favImg ? URL.createObjectURL(this.favImg) : '';
+      previewImage(image) {
+        this.image = image;
+      },
+
+      previewImageFav(image) {
+        this.favImg = image;
       }
     }
   }

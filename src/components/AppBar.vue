@@ -10,6 +10,10 @@
 
       <v-spacer></v-spacer>
 
+      <router-link to="/special">
+        <v-btn text>special</v-btn>
+      </router-link>
+      
       <router-link to="/create-waifu">
         <v-btn text>Add waifu</v-btn>
       </router-link>

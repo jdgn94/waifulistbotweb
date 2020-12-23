@@ -9,8 +9,9 @@ import axios from "axios";
 axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
 let config = {
-  baseURL: process.env.baseURL || process.env.apiUrl || "https://waifulistbotapi.herokuapp.com/api",
+  // baseURL: process.env.baseURL || process.env.apiUrl || "https://waifulistbotapi.herokuapp.com/api",
   // baseURL: process.env.baseURL || process.env.apiUrl || "http://192.168.1.8:3000/api",
+  baseURL: process.env.baseURL || process.env.apiUrl || "http://localhost:3000/api",
   headers: {
     'Access-Control-Allow-Methods': '*'
   }
