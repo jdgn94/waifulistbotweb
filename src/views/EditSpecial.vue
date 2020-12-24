@@ -9,7 +9,7 @@
           url="franchises"
           pos="0"
           :changeValue="changeFranchise"
-          :franchiseId='franchise'
+          :waifuId='franchise'
           :clearable="false"
           :clear="() => {}"
         />
@@ -79,13 +79,18 @@
     data() {
       return {
         id: null,
-        franchise: '',
+        franchise: null,
         waifus: [
-          { id: '' },
-          { id: '' },
-          { id: '' },
-          { id: '' },
-          { id: '' }
+          { id: null },
+          { id: null },
+          { id: null },
+          { id: null },
+          { id: null },
+          { id: null },
+          { id: null },
+          { id: null },
+          { id: null },
+          { id: null }
         ],
         waifusDelete: [],
         image: null,
@@ -125,6 +130,7 @@
       },
 
       changeFranchise(val) {
+        console.log(val);
         this.franchise = val;
       },
 

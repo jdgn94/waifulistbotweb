@@ -6,6 +6,8 @@
           label="Search"
           hint="search for franchisen, name or nickname"
           v-model="name"
+          @keyup.enter="fetchData(1, name)"
+          @click:clear="resetSearch()"
           filled
           rounded
           clearable
@@ -76,6 +78,14 @@
         </tbody>
       </template>
     </v-simple-table>
+
+    <div class="text-center">
+      <v-pagination
+        v-model="page"
+        :length="totalPage"
+        :total-visible="7"
+      ></v-pagination>
+    </div>
   </div>
 </template>
 
@@ -87,7 +97,9 @@
       return {
         name: '',
         specials: [],
-        totalPage: 0
+        page: 1,
+        totalPage: 1,
+        timeOut: null
       }
     },
 
@@ -95,14 +107,37 @@
       this.fetchData();
     },
 
+    watch: {
+      page(val) {
+        console.log('cambie de pagina a la', val);
+        this.fetchData(val);
+      },
+
+      name(val) {
+        clearTimeout(this.timeOut);
+        this.timeOut = setTimeout(() => {
+          this.page = 1;
+          this.fetchData(1, val);
+        }, 700);
+      }
+    },
+
     methods: {
-      async fetchData() {
-        const { status, data } = await axios.get('/special_image');
+      async fetchData(page = 1, name = '') {
+        clearTimeout(this.timeOut); 
+        if (name == null) name = ''
+        const { status, data } = await axios.get('/special_image/?page=' + page + '&name=' + name);
         console.log(data);
         if (status == 200) {
           this.specials = data.specials;
           this.totalPage = data.totalPage;
         }
+      },
+
+      resetSearch() {
+        this.name = '';
+        this.page = 1;
+        this.fetchData();
       },
 
       redirect(id) {
