@@ -202,7 +202,7 @@
       },
 
       previewImage(image) {
-        this.image
+        this.image = image;
       },
       
       previewImageFav(image) {
